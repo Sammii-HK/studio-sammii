@@ -1,12 +1,18 @@
-# FROM node:latest
+FROM node:latest
 
-# WORKDIR /app/admin
+WORKDIR /app/backend
 
-# COPY . .
+COPY ./tsconfig.json /app/backend/tsconfig.json
+COPY ./tsconfig.server.json /app/backend/tsconfig.server.json
+COPY ./medusa-config.js /app/backend/medusa-config.js
 
-# RUN rm -rf node_modules
+COPY ./package.json /app/backend/package.json
+COPY ./yarn.lock /app/backend/yarn.lock
+RUN yarn install --production --mount=type=cache
 
-# RUN apt-get update
+
+COPY ./src /app/backend/src
+RUN yarn start
 
 # RUN npm install -g npm@latest
 
@@ -19,3 +25,5 @@
 # RUN npm run build &> /dev/null
 
 # CMD [ "gatsby", "develop", "-H", "0.0.0.0",  "-p", "7000" ]
+
+CMD [ "node", "7000" ]
