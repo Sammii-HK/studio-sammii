@@ -1,17 +1,19 @@
 
 # FROM node:17.1.0 as builder
 
-# WORKDIR /app/storefront
+# WORKDIR /app/admin
 
-# COPY . . 
+# ENV NODE_OPTIONS=--openssl-legacy-provider
+
+# COPY . .
 
 # RUN rm -rf node_modules
 
 # RUN apt-get update
 
-# RUN yarn global add gatsby-cli
-
 # RUN yarn add sharp
+
+# RUN yarn global add gatsby-cli
 
 # RUN yarn install
 
@@ -19,8 +21,8 @@
 
 # FROM nginx
 
-# EXPOSE 80
+# EXPOSE 80 
 
-# COPY --from=builder /app/storefront/public /usr/share/nginx/html
+# COPY --from=builder /app/admin/public /usr/share/nginx/html
 
 # ENTRYPOINT ["nginx", "-g", "daemon off;"]
