@@ -9,9 +9,9 @@ services:
     ports:
       - "9000:9000"
 
-  admin:
-    ports:
-      - "7000:7000"
+  # admin:
+  #   ports:
+  #     - "7000:7000"
 
   storefront:
     volumes:
