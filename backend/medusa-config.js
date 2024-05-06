@@ -43,6 +43,12 @@ const plugins = [
     },
   },
   {
+    resolve: `medusa-payment-stripe`,
+    options: {
+      api_key: process.env.NEXT_PUBLIC_STRIPE_KEY,
+    },
+  },
+  {
     resolve: "@medusajs/admin",
     /** @type {import('@medusajs/admin').PluginOptions} */
     options: {
