@@ -56,5 +56,5 @@ services:
       - storefront
       - backend
     ports:
-      - "7777:80"
-      - "7778:443"
+      - "80:80"
+      - "443:443"
