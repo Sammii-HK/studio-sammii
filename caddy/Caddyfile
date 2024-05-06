@@ -8,8 +8,6 @@ studiosammii.com {
 }
 
 admin.studiosammii.com {
-    handle_path /app* {
 		reverse_proxy http://backend:9000
     log
-	}
 }
