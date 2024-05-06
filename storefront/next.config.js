@@ -25,6 +25,10 @@ const nextConfig = withStoreConfig({
         protocol: "https",
         hostname: "medusa-server-testing.s3.us-east-1.amazonaws.com",
       },
+      {
+        protocol: "http", // or https
+        hostname:"http://backend:9000",
+      },
     ],
   },
 })
