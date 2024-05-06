@@ -4,10 +4,12 @@
 
 studiosammii.com {
     reverse_proxy * http://storefront:8000
+    log
 }
 
 admin.studiosammii.com {
     handle_path /app* {
 		reverse_proxy http://backend:9000
+    log
 	}
 }
