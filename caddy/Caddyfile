@@ -1,3 +1,5 @@
+debug
+
 studiosammii.com {
     reverse_proxy * http://storefront:8000
 }
