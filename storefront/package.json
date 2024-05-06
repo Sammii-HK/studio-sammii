@@ -1,9 +1,9 @@
 {
-  "name": "medusa-next",
+  "name": "studio-sammii-storefront",
   "version": "1.0.3",
   "private": true,
-  "author": "Kasper Fabricius Kristensen <kasper@medusajs.com> & Victor Gerbrands <victor@medusajs.com> (https://www.medusajs.com)",
-  "description": "Next.js Starter to be used with Medusa server",
+  "author": "Sammii <hello.studiosammii@gmail.com>",
+  "description": "The storefront of my Studio",
   "keywords": [
     "medusa-storefront"
   ],

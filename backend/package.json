@@ -1,8 +1,8 @@
 {
-  "name": "medusa-starter-default",
+  "name": "studio-sammii",
   "version": "0.0.1",
-  "description": "A starter for Medusa projects.",
-  "author": "Medusa (https://medusajs.com)",
+  "description": "A studio to display my artwork.",
+  "author": "Sammii (https://github.com/sammii-hk)",
   "license": "MIT",
   "keywords": [
     "sqlite",
@@ -40,6 +40,7 @@
     "medusa-fulfillment-manual": "latest",
     "medusa-interfaces": "latest",
     "medusa-payment-manual": "latest",
+    "medusa-payment-paypal": "^6.0.3",
     "medusa-payment-stripe": "latest",
     "prism-react-renderer": "^2.0.4",
     "typeorm": "^0.3.16"
