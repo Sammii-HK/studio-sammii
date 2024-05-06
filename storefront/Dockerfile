@@ -1,22 +1,21 @@
 
-FROM node:latest
+FROM node:18-alpine
 
 WORKDIR /app/storefront
 
 COPY ./package.json /app/storefront/package.json
 COPY ./yarn.lock /app/storefront/yarn.lock
-RUN yarn install --production --mount=type=cache
+RUN yarn install
 
+COPY ./public /app/storefront/public
 COPY ./src /app/storefront/src
-RUN yarn start
+COPY next-env.d.ts /app/storefront/next-env.d.ts
+COPY next-sitemap.js /app/storefront/next-sitemap.js
+COPY next.config.js /app/storefront/next.config.js
+COPY postcss.config.js /app/storefront/postcss.config.js
+COPY store-config.js /app/storefront/store-config.js
+COPY store.config.json /app/storefront/store.config.json
+COPY tailwind.config.js /app/storefront/tailwind.config.js
+COPY tsconfig.json /app/storefront/tsconfig.json
 
-# RUN npm install -g npm@latest
-
-# RUN npm install -g gatsby-cli
-
-# RUN npm install sharp
-
-# RUN npm install --loglevel=error
-
-# ENTRYPOINT ["gatsby", "develop", "-H", "0.0.0.0", "-p", "8000" ]
-ENTRYPOINT [ "node", "8000" ]
+CMD yarn build && yarn start

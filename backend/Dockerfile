@@ -1,4 +1,6 @@
-FROM node:latest
+FROM node:18-alpine
+# installs pnpm
+RUN corepack enable
 
 WORKDIR /app/backend
 
@@ -7,23 +9,11 @@ COPY ./tsconfig.server.json /app/backend/tsconfig.server.json
 COPY ./medusa-config.js /app/backend/medusa-config.js
 
 COPY ./package.json /app/backend/package.json
-COPY ./yarn.lock /app/backend/yarn.lock
-RUN yarn install --production --mount=type=cache
-
+COPY ./pnpm-lock.yaml /app/backend/pnpm-lock.yaml
+RUN pnpm i --node-linker=hoisted
 
 COPY ./src /app/backend/src
-RUN yarn start
+RUN pnpm run build
 
-# RUN npm install -g npm@latest
-
-# RUN npm install sharp
-
-# RUN npm install -g gatsby-cli
-
-# RUN npm install --loglevel=error
-
-# RUN npm run build &> /dev/null
-
-# CMD [ "gatsby", "develop", "-H", "0.0.0.0",  "-p", "7000" ]
-
-CMD [ "node", "7000" ]
+# CMD pnpm medusa migrations run && pnpm medusa user -e admin@medusa-test.com -p supersecret && pnpm medusa start
+CMD pnpm medusa migrations run && pnpm medusa start
