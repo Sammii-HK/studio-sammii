@@ -11,6 +11,8 @@ services:
     depends_on:
       - postgres
       - redis
+    env_file:
+      - ./backend/.env
     environment:
       DATABASE_URL: postgres://postgres:postgres@postgres:5432/medusa
       REDIS_URL: redis://cache
