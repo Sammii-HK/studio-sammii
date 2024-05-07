@@ -12,6 +12,8 @@ services:
       - redis
     env_file:
       - ./backend/.env
+    volumes:
+      - ./backend-uploads:/app/backend/uploads
     environment:
       DATABASE_URL: postgres://postgres:postgres@postgres:5432/medusa
       REDIS_URL: redis://cache
@@ -59,5 +61,5 @@ services:
     ports:
       - "80:80"
       - "443:443"
-volumes:
-  studio-storarge:
+    volumes:
+      - ./caddy-data:/data
