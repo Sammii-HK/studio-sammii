@@ -7,7 +7,7 @@ studiosammii.com {
     log
 }
 
-admin.studiosammii.com {
+api.studiosammii.com {
 		reverse_proxy http://backend:9000
     log
 }
