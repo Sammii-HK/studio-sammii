@@ -32,6 +32,8 @@ services:
     build:
       context: ./storefront
       dockerfile: Dockerfile
+      args:
+        - MEDUSA_BACKEND_URL=https://api.studiosammii.com
     image: storefront
     container_name: medusa-storefront
     depends_on:

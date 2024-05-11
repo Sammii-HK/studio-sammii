@@ -1,6 +1,9 @@
 
 FROM node:18-alpine
 
+ARG MEDUSA_BACKEND_URL
+ENV NEXT_PUBLIC_MEDUSA_BACKEND_URL $MEDUSA_BACKEND_URL
+
 WORKDIR /app/storefront
 
 COPY ./package.json /app/storefront/package.json
