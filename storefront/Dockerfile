@@ -1,9 +1,6 @@
 
 FROM node:18-alpine
 
-ARG MEDUSA_BACKEND_URL
-ENV NEXT_PUBLIC_MEDUSA_BACKEND_URL $MEDUSA_BACKEND_URL
-
 WORKDIR /app/storefront
 
 COPY ./package.json /app/storefront/package.json
@@ -20,5 +17,8 @@ COPY store-config.js /app/storefront/store-config.js
 COPY store.config.json /app/storefront/store.config.json
 COPY tailwind.config.js /app/storefront/tailwind.config.js
 COPY tsconfig.json /app/storefront/tsconfig.json
+
+ARG MEDUSA_BACKEND_URL
+ENV NEXT_PUBLIC_MEDUSA_BACKEND_URL $MEDUSA_BACKEND_URL
 
 CMD yarn build && yarn start

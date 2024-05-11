@@ -29,6 +29,10 @@ const nextConfig = withStoreConfig({
         protocol: "http", // or https
         hostname:"http://backend:9000",
       },
+      {
+        protocol: "https",
+        hostname: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+      },      
     ],
   },
 })
