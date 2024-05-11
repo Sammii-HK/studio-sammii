@@ -7,7 +7,7 @@ WORKDIR /app/storefront
 
 COPY ./package.json /app/storefront/package.json
 COPY ./pnpm-lock.yaml /app/storefront/pnpm-lock.yaml
-RUN pnpm install
+RUN pnpm install --node-linker=hoisted
 
 COPY ./public /app/storefront/public
 COPY ./src /app/storefront/src
