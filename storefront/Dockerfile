@@ -1,13 +1,11 @@
 
 FROM node:18-alpine
-# installs pnpm
-RUN corepack enable
 
 WORKDIR /app/storefront
 
 COPY ./package.json /app/storefront/package.json
-COPY ./pnpm-lock.yaml /app/storefront/pnpm-lock.yaml
-RUN pnpm install --node-linker=hoisted
+COPY ./yarn.lock /app/storefront/yarn.lock
+RUN yarn install
 
 COPY ./public /app/storefront/public
 COPY ./src /app/storefront/src
@@ -20,4 +18,4 @@ COPY store.config.json /app/storefront/store.config.json
 COPY tailwind.config.js /app/storefront/tailwind.config.js
 COPY tsconfig.json /app/storefront/tsconfig.json
 
-CMD pnpm build && pnpm start
+CMD yarn build && yarn start
