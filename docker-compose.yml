@@ -37,7 +37,7 @@ services:
     depends_on:
       - backend
     environment:
-      NEXT_PUBLIC_MEDUSA_BACKEND_URL: http://backend:9000
+      NEXT_PUBLIC_MEDUSA_BACKEND_URL: https://api.studiosammii.com
 
   caddy:
     build:
