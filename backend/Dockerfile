@@ -15,5 +15,4 @@ RUN pnpm i --node-linker=hoisted
 COPY ./src /app/backend/src
 RUN pnpm run build
 
-# CMD pnpm medusa migrations run && pnpm medusa user -e admin@medusa-test.com -p supersecret && pnpm medusa start
 CMD pnpm medusa migrations run && pnpm medusa start
