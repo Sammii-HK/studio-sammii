@@ -40,6 +40,7 @@ services:
       - backend
     environment:
       NEXT_PUBLIC_MEDUSA_BACKEND_URL: https://api.studiosammii.com
+      NEXT_PUBLIC_MEDUSA_BACKEND_DOMAIN: api.studiosammii.com
 
   caddy:
     build:
