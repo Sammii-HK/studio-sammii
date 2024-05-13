@@ -38,9 +38,8 @@ services:
     container_name: medusa-storefront
     depends_on:
       - backend
-    environment:
-      NEXT_PUBLIC_MEDUSA_BACKEND_URL: https://api.studiosammii.com
-      NEXT_PUBLIC_MEDUSA_BACKEND_DOMAIN: api.studiosammii.com
+    env_file:
+      - ./storefront/.env
 
   caddy:
     build:

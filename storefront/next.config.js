@@ -29,10 +29,10 @@ const nextConfig = withStoreConfig({
         protocol: "http",
         hostname:"backend:9000",
       },
-      {
+      ...(process.env.NEXT_PUBLIC_MEDUSA_BACKEND_DOMAIN ? [{
         protocol: "https",
         hostname: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_DOMAIN,
-      },      
+      }] : []),      
     ],
   },
 })
