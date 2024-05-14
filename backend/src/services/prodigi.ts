@@ -31,7 +31,6 @@ class ProdigiService extends AbstractFulfillmentService {
     order: Order,
     fulfillment: Fulfillment
   ) {
-    console.log("data", data);
     return createOrder(data)
     // return {
 
@@ -47,8 +46,19 @@ class ProdigiService extends AbstractFulfillmentService {
       throw new Error("invalid data")
     }
 
-    console.log("data", data);
-    
+    const PRODIGI_SKUS = {
+      CARD_SINGLE: 'CLASSIC-INV-GLOS-6X6',
+      CARD_TEN: 'CLASSIC-INV-GLOS-6X6-10',
+      POSTER_A4: 'GLOBAL-BLP-A4',
+      POSTER_A3: 'GLOBAL-BLP-A3',
+    }
+
+    const getFulfilmentSku = (item: LineItem) => {
+      const splitSku = item.variant.sku.split('_')
+      const extractedSku = splitSku[splitSku.length -1]
+
+      return Object.values(PRODIGI_SKUS).includes(extractedSku) ? extractedSku : null;
+    }
 
     return {
       "shippingMethod": "Budget",
@@ -65,7 +75,7 @@ class ProdigiService extends AbstractFulfillmentService {
           "email": cart.email
       },
       "items": cart.items.map(item => ({
-          sku: item.variant.sku,
+          sku: getFulfilmentSku(item),
           copies: item.quantity,
           sizing: 'fillPrintArea',
           assets: [
