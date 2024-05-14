@@ -29,6 +29,10 @@ const nextConfig = withStoreConfig({
         protocol: "http",
         hostname:"backend:9000",
       },
+      {
+        protocol: "https",
+        hostname:"api.studiosammii.com",
+      },
       ...(process.env.NEXT_PUBLIC_MEDUSA_BACKEND_DOMAIN ? [{
         protocol: "https",
         hostname: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_DOMAIN,
@@ -37,6 +41,6 @@ const nextConfig = withStoreConfig({
   },
 })
 
-console.log("next.config.js", JSON.stringify(module.exports, null, 2))
+// console.log("next.config.js", JSON.stringify(module.exports, null, 2))
 
 module.exports = nextConfig
