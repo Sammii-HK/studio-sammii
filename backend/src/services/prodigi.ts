@@ -46,6 +46,8 @@ class ProdigiService extends AbstractFulfillmentService {
       throw new Error("invalid data")
     }
 
+    const PRODIGI = 'PDGI';
+
     const PRODIGI_SKUS = {
       CARD_SINGLE: 'CLASSIC-INV-GLOS-6X6',
       CARD_TEN: 'CLASSIC-INV-GLOS-6X6-10',
@@ -54,7 +56,7 @@ class ProdigiService extends AbstractFulfillmentService {
     }
 
     const getFulfilmentSku = (item: LineItem) => {
-      const splitSku = item.variant.sku.split('_')
+      const splitSku = item.variant.sku.split(PRODIGI + '-')
       const extractedSku = splitSku[splitSku.length -1]
 
       return Object.values(PRODIGI_SKUS).includes(extractedSku) ? extractedSku : null;
