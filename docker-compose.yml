@@ -16,6 +16,8 @@ services:
       REDIS_URL: redis://cache
       NODE_ENV: development
       PORT: 9000
+    ports:
+      - 9000:9000
 
   postgres:
     image: postgres:10.4
@@ -40,17 +42,5 @@ services:
       - backend
     env_file:
       - ./storefront/.env
-
-  caddy:
-    build:
-      context: ./caddy
-      dockerfile: Dockerfile
-    image: caddy-medusa
-    depends_on:
-      - storefront
-      - backend
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./caddy-data:/data
+      - 8000:8000
