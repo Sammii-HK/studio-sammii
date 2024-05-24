@@ -1,17 +1,19 @@
-import { AbstractFulfillmentService, Cart, Fulfillment, LineItem, Order } from "@medusajs/medusa"
+import { AbstractFileService, AbstractFulfillmentService, Cart, Fulfillment, LineItem, Order } from "@medusajs/medusa"
 // import { getProductDetails } from "../utils/prodigi/getProductDetails";
 import { CreateReturnType } from "@medusajs/medusa/dist/types/fulfillment-provider";
 import { ProdigiOrder, createOrder } from "./fulfilmentServices/prodigi/create-order";
+import VariantMediaService from "./variant-media";
+// import { getProductDetails } from "../utils/prodigi/getProductDetails";
 
 class ProdigiService extends AbstractFulfillmentService {
   static identifier = "prodigi"
+  private variantMediaService: VariantMediaService
+  private fileService: AbstractFileService
 
   constructor(container, options) {
     super(container)
-    // you can access options here
-    // you can also initialize a client that
-    // communicates with a third-party service.
-    // this.client = new Client(options);
+    this.variantMediaService = container.variantMediaService
+    this.fileService = container.fileService
   }
 
   async getFulfillmentOptions(): Promise<any[]> {
@@ -31,6 +33,10 @@ class ProdigiService extends AbstractFulfillmentService {
     order: Order,
     fulfillment: Fulfillment
   ) {
+    // console.log("🍉 createFulfillment data", data);
+    // console.log("order", order);
+    
+    
     return createOrder(data)
     // return {
 
@@ -60,6 +66,32 @@ class ProdigiService extends AbstractFulfillmentService {
       const extractedSku = splitSku[splitSku.length -1]
 
       return Object.values(PRODIGI_SKUS).includes(extractedSku) ? extractedSku : null;
+    };
+
+    const getVariantMediaUrl = async (variantId: string) => {
+      const variantMedia = await this.variantMediaService.retrieveMediaByVariantId(variantId);
+
+      const url = await this.fileService.getPresignedDownloadUrl({
+        fileKey: variantMedia.file_key,
+        isPrivate: true
+      });
+
+      return url;
+    };
+
+    const handleAssets = async (item: LineItem) => {
+      const assetUrl = await getVariantMediaUrl(item.variant_id);
+      // const sku = getFulfilmentSku(item)
+      // const productDetails = await getProductDetails(sku);
+      // console.log("🪴 productDetails", productDetails);
+      // console.log("🪴 productDetails.variants", productDetails.variants);
+      // console.log("🪴 productDetails.variants[0].printAreaSizes", productDetails.variants[0].printAreaSizes);
+      return [
+        {
+          "printArea": "default",
+          "url": assetUrl,
+        }
+      ]
     }
 
     return {
@@ -76,17 +108,12 @@ class ProdigiService extends AbstractFulfillmentService {
           "name": `${cart.shipping_address.first_name} ${cart.shipping_address.last_name}`,
           "email": cart.email
       },
-      "items": cart.items.map(item => ({
+      "items": await Promise.all(cart.items.map(async (item) =>  ({
           sku: getFulfilmentSku(item),
           copies: item.quantity,
           sizing: 'fillPrintArea',
-          assets: [
-            {
-              "printArea": "default",
-              "url": item.thumbnail
-            }
-          ]
-        })
+          assets: await handleAssets(item)
+        }))
       ),
     }
   }
