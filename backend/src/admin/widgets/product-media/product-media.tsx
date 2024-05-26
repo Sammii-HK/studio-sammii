@@ -3,36 +3,23 @@ import type {
   ProductDetailsWidgetProps,
 } from "@medusajs/admin"
 
-// import UploadVariantMedia from "../../../admin/components/product-media/UploadVariantMedia"
-import UploadVariantMedia from "../../components/product-media/UploadVariantMedia"
-// admin/components/product-media/UploadVariantMedia"
-import Dropdown from "../../components/Dropdown"
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuLabel,
-//   DropdownMenuSeparator,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu"
+import VariantMediaWidget from "../../components/product-media/VariantMedia"
 
 const ProductWidget = ({
   product,
   notify,
 }: ProductDetailsWidgetProps) => {
   return (
-    <div className="bg-white p-8 border border-gray-200 rounded-lg flex justify-between">
-      {/* <h1>Product Widget {product.title}</h1> */}
-      {/* {JSON.stringify(product.variants)}
-      <button 
-        className="bg-black rounded p-1 text-white"
-        onClick={() => notify.success("success", "You clicked the button!")}
-      >
-        Click me
-      </button> */}
-      <UploadVariantMedia />
-      <Dropdown options={product.variants} />
-
+    <div className="bg-white p-8 border border-gray-200 rounded-lg flex-col justify-between min-h-24 max-h-96">
+      {product?.variants?.map(variant => (
+        <div className="py-2" key={`media-list-item-${variant.id}`}>
+          <div className="flex">
+            <h2 className="mr-4">{variant.title}</h2>
+            <VariantMediaWidget notify={notify} productVariantId={variant.id} />
+          </div>
+          <hr />
+        </div>
+      ))}
     </div>
   )
 }

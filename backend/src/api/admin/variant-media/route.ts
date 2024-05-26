@@ -15,13 +15,10 @@ export const GET = async (
   // omitting pagination for simplicity
   const [variantMedias, count] = await variantMediaService
     .listAndCount({}, {
-      // relations: ["variant"],
-      relations: [],
+      relations: ["variant"],
+      // relations: [],
     }
   )
-
-  // console.log("variantMedias", variantMedias);
-  
 
   res.json({
     variant_medias: variantMedias,

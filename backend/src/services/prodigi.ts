@@ -1,5 +1,4 @@
 import { AbstractFileService, AbstractFulfillmentService, Cart, Fulfillment, LineItem, Order } from "@medusajs/medusa"
-// import { getProductDetails } from "../utils/prodigi/getProductDetails";
 import { CreateReturnType } from "@medusajs/medusa/dist/types/fulfillment-provider";
 import { ProdigiOrder, createOrder } from "./fulfilmentServices/prodigi/create-order";
 import VariantMediaService from "./variant-media";
@@ -35,12 +34,7 @@ class ProdigiService extends AbstractFulfillmentService {
   ) {
     // console.log("🍉 createFulfillment data", data);
     // console.log("order", order);
-    
-    
     return createOrder(data)
-    // return {
-
-    // }
   }
 
   async validateFulfillmentData(
@@ -70,7 +64,6 @@ class ProdigiService extends AbstractFulfillmentService {
 
     const getVariantMediaUrl = async (variantId: string) => {
       const variantMedia = await this.variantMediaService.retrieveMediaByVariantId(variantId);
-
       const url = await this.fileService.getPresignedDownloadUrl({
         fileKey: variantMedia.file_key,
         isPrivate: true
@@ -81,11 +74,6 @@ class ProdigiService extends AbstractFulfillmentService {
 
     const handleAssets = async (item: LineItem) => {
       const assetUrl = await getVariantMediaUrl(item.variant_id);
-      // const sku = getFulfilmentSku(item)
-      // const productDetails = await getProductDetails(sku);
-      // console.log("🪴 productDetails", productDetails);
-      // console.log("🪴 productDetails.variants", productDetails.variants);
-      // console.log("🪴 productDetails.variants[0].printAreaSizes", productDetails.variants[0].printAreaSizes);
       return [
         {
           "printArea": "default",

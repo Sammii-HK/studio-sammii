@@ -22,9 +22,6 @@ export const GET = async (
     }
   )
 
-  console.log("productMedias", productMedias);
-  
-
   res.json({
     product_medias: productMedias,
     count,

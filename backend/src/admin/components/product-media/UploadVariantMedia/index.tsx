@@ -12,16 +12,21 @@ import {
   Input, 
   Label, 
 } from "@medusajs/ui"
-import { RouteProps } from "@medusajs/admin-ui"
+
+type Notify = {
+  success: (title: string, message: string) => void;
+  error: (title: string, message: string) => void;
+  warn: (title: string, message: string) => void;
+  info: (title: string, message: string) => void;
+};
 
 const UploadVariantMedia = ({
   notify,
   productVariantId,
 }: {
-  notify: RouteProps,
+  notify: Notify,
   productVariantId: string
 }) => {
-  // const [name, setName] = useState("")
   const [file, setFile] = useState<File>()
   
   const uploadFile = useAdminUploadProtectedFile()
@@ -55,11 +60,10 @@ const UploadVariantMedia = ({
           onSuccess: () => {
             console.log("success");
             
-            // notify.success(
-            //   "Success", 
-            //   "Digital Product Created Successfully"
-            // )
-            // navigate("/a/product-media")
+            notify.success(
+              "Success", 
+              "Variant Media Uploded Successfully"
+            )
           },
         })
       },

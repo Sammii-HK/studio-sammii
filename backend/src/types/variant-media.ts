@@ -1,13 +1,25 @@
+import { ProductVariant } from "@medusajs/medusa/dist/models/product-variant";
 import { 
-  VariantMedia, 
+  VariantMedia,
 } from "../models/variant-media"
+
+export type VariantMediaWithUrl = {
+  id: string,
+  file_key: string,
+  mime_type: string,
+  variant_id?: string,
+  variant?: ProductVariant,
+  src?: string,
+  created_at: Date,
+  updated_at: Date,
+}
 
 export type ListVariantMediasRequest = {
   // no expected parameters
 };
 
 export type ListVariantMediasResponse = {
-  variant_medias: VariantMedia[]
+  variant_medias: VariantMediaWithUrl[]
   count: number
 };
 
@@ -17,7 +29,7 @@ export type GetVariantMediaRequest = {
 };
 
 export type GetVariantMediaResponse = {
-  variant_media: VariantMedia
+  variant_media: VariantMediaWithUrl
 };
 
 export type CreateVariantMediaRequest = {

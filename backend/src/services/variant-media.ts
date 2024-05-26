@@ -1,4 +1,5 @@
 import { 
+  AbstractFileService,
   FindConfig,
   ProductVariant,
   ProductVariantService,
@@ -8,19 +9,29 @@ import {
 } from "@medusajs/medusa"
 import { VariantMedia } from "../models/variant-media"
 import { MedusaError } from "@medusajs/utils"
+import { VariantMediaWithUrl } from "src/types/variant-media"
 
 type InjectedDependencies = {
-  productVariantService: ProductVariantService
+  productVariantService: ProductVariantService,
+  fileService: AbstractFileService,
 }
-
 class VariantMediaService extends TransactionBaseService {
   protected productVariantService_: ProductVariantService
+  private fileService: AbstractFileService
 
   constructor(container: InjectedDependencies) {
     super(container)
     this.productVariantService_ = 
       container.productVariantService
+    this.fileService = container.fileService
   }
+
+  async getVariantMediaUrl(fileKey: string) {
+    return await this.fileService.getPresignedDownloadUrl({
+      fileKey: fileKey,
+      isPrivate: true
+    });
+  };
 
   private checkVariantInRelations(
     relations: string[]
@@ -41,7 +52,7 @@ class VariantMediaService extends TransactionBaseService {
       take: 20,
       relations: [],
     }
-  ): Promise<[VariantMedia[], number]> {
+  ): Promise<[VariantMediaWithUrl[], number]> {
     const variantMediaRepo = this.activeManager_.getRepository(
       VariantMedia
     )
@@ -71,7 +82,16 @@ class VariantMediaService extends TransactionBaseService {
         }))
     }
 
-    return [variantMedias, count]
+    const enhancedMedia = await Promise.all(variantMedias.map(async media => {
+      const mediaUrl = await this.getVariantMediaUrl(media.file_key)
+
+      return {
+        ...media,
+        src: mediaUrl,
+      }
+    }))
+
+    return [enhancedMedia, count]
   }
   
   async list(
@@ -81,7 +101,7 @@ class VariantMediaService extends TransactionBaseService {
       take: 20,
       relations: [],
     }
-  ): Promise<VariantMedia[]> {
+  ): Promise<VariantMediaWithUrl[]> {
     const [variantMedias] = await this.listAndCount(
         selector, config
       )
@@ -167,7 +187,7 @@ class VariantMediaService extends TransactionBaseService {
 
   async retrieveMediaByVariantId(
     variantId: string
-  ): Promise<VariantMedia> {
+  ): Promise<VariantMediaWithUrl> {
     const variantMediaRepo = this.activeManager_.getRepository(
       VariantMedia
     )
@@ -176,9 +196,13 @@ class VariantMediaService extends TransactionBaseService {
       variant_id: variantId,
     })
 
-    const variantMedias = await variantMediaRepo.findOne(query)
+    const variantMedia = await variantMediaRepo.findOne(query)
+    console.log("variantMedia", variantMedia);
+    const variantMediaUrl = await this.getVariantMediaUrl(variantMedia.file_key)
+    console.log("variantMediaUrl", variantMediaUrl);
+    
 
-    return variantMedias
+    return {...variantMedia, src: variantMediaUrl}
   }
 
   async create(
