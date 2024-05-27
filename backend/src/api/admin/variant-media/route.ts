@@ -43,7 +43,7 @@ export const POST = async (
   >("variantMediaService")
   const variantMedia = await variantMediaService.create({
     variant_id,
-    file_key: file_key.replace(' ', '_').replace("'", ""),
+    file_key: file_key.replace(/\s/, '_').replace(/['’]/, ""),
     mime_type,
   })
 
