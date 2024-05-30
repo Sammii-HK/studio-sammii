@@ -15,7 +15,7 @@ export default async function CheckoutForm() {
   const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) {
-    return null
+    return <p>Opps, there has been a problem, please try again</p>
   }
 
   // create payment sessions and get cart
