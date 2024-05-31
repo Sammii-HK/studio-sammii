@@ -26,6 +26,9 @@ export default async function CheckoutForm() {
     (cart) => cart
   )) as CartWithCheckoutStep
 
+  console.log("cart", cart);
+  
+
   if (!cart) {
     return <p>Opps, there has been a problem with the cart, please try again</p>
   }
