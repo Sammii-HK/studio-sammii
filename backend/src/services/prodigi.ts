@@ -51,6 +51,12 @@ class ProdigiService extends AbstractFulfillmentService {
     if (optionData.id !== "prodigi-standard" && optionData.id !== "prodigi-first-class") {
       throw new Error("invalid data")
     }
+    console.log("optionData", optionData);
+    console.log("data", data);
+    console.log("cart", cart);
+    
+    
+    
 
     const PRODIGI = 'PDGI';
 
@@ -88,7 +94,7 @@ class ProdigiService extends AbstractFulfillmentService {
       ]
     }
 
-    return {
+    const fulfillmentData = {
       "shippingMethod": "Budget",
       "recipient": {
           "address": {
@@ -110,6 +116,9 @@ class ProdigiService extends AbstractFulfillmentService {
         }))
       ),
     }
+    console.log("fulfillmentData", fulfillmentData);
+    
+    return fulfillmentData
   }
 
   async validateOption(
