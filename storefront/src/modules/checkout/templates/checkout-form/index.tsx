@@ -41,7 +41,10 @@ export default async function CheckoutForm() {
   )
 
   if (!availableShippingMethods) {
-    return <p>Opps, there has been a problem with the shipping methods, please try again</p>
+    return <div>
+      <p>Opps, there has been a problem with the shipping methods, please try again</p>
+      {JSON.stringify(availableShippingMethods)}
+    </div>
   }
 
   // get customer if logged in
@@ -50,6 +53,7 @@ export default async function CheckoutForm() {
   return (
     <div>
       <div className="w-full grid grid-cols-1 gap-y-8">
+        {JSON.stringify(cart)}
         <div>
           <Addresses cart={cart} customer={customer} />
         </div>
