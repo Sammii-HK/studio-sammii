@@ -4,6 +4,12 @@ import { ProdigiOrder, createOrder } from "./fulfilmentServices/prodigi/create-o
 import VariantMediaService from "./variant-media";
 // import { getProductDetails } from "../utils/prodigi/getProductDetails";
 
+type ProdigiFulfillment = Fulfillment & {
+  metadata: {
+    prodigiOrderId: string
+  }
+}
+
 class ProdigiService extends AbstractFulfillmentService {
   static identifier = "prodigi"
   private variantMediaService: VariantMediaService
