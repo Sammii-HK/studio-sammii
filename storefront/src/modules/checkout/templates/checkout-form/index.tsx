@@ -44,6 +44,7 @@ export default async function CheckoutForm() {
     return <div>
       <p>Opps, there has been a problem with the shipping methods, please try again</p>
       {JSON.stringify(availableShippingMethods)}
+      {JSON.stringify(cart)}
     </div>
   }
 
