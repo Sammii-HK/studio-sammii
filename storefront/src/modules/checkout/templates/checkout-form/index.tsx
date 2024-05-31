@@ -14,8 +14,11 @@ import { CartWithCheckoutStep } from "types/global"
 export default async function CheckoutForm() {
   const cartId = cookies().get("_medusa_cart_id")?.value
 
+  console.log("cookies()", cookies());
+  
+
   if (!cartId) {
-    return <p>Opps, there has been a problem, please try again</p>
+    return <p>Opps, there has been a problem with the cartId, please try again</p>
   }
 
   // create payment sessions and get cart
@@ -24,7 +27,7 @@ export default async function CheckoutForm() {
   )) as CartWithCheckoutStep
 
   if (!cart) {
-    return null
+    return <p>Opps, there has been a problem with the cart, please try again</p>
   }
 
   cart.checkout_step = cart && getCheckoutStep(cart)
@@ -35,7 +38,7 @@ export default async function CheckoutForm() {
   )
 
   if (!availableShippingMethods) {
-    return null
+    return <p>Opps, there has been a problem with the shipping methods, please try again</p>
   }
 
   // get customer if logged in
