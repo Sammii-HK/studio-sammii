@@ -1,6 +1,6 @@
 import { AbstractFileService, AbstractFulfillmentService, Cart, Fulfillment, LineItem, Order } from "@medusajs/medusa"
 import { CreateReturnType } from "@medusajs/medusa/dist/types/fulfillment-provider";
-import { ProdigiOrder, createOrder } from "./fulfilmentServices/prodigi/create-order";
+import { ProdigiOrder, createOrder, cancelOrder } from "./fulfilmentServices/prodigi/order-actions";
 import VariantMediaService from "./variant-media";
 // import { getProductDetails } from "../utils/prodigi/getProductDetails";
 
@@ -21,6 +21,32 @@ class ProdigiService extends AbstractFulfillmentService {
     this.fileService = container.fileService
   }
 
+  async createFulfillment(
+    data: ProdigiOrder,
+    items: LineItem[],
+    order: Order,
+    fulfillment: Fulfillment
+  ) {
+    const prodigiOrder = await createOrder(data)
+    return { 
+      ...fulfillment, 
+      metadata: {
+      prodigiOrderId: prodigiOrder.order.id
+      }
+    }
+  }
+
+  async cancelFulfillment(
+    // fulfillment: Record<string, unknown>,
+    fulfillment: Record<string, ProdigiFulfillment>,
+  ): Promise<any> {
+    console.log("fulfillment", fulfillment);
+    
+    // await cancelOrder(fulfillment.metadata.prodigiOrderId as typeof ProdigiFulfillment)
+
+    return {}
+  }
+
   async getFulfillmentOptions(): Promise<any[]> {
     return [
       {
@@ -30,17 +56,6 @@ class ProdigiService extends AbstractFulfillmentService {
       //   id: "prodigi-first-class",
       // },
     ]
-  }
-
-  async createFulfillment(
-    data: ProdigiOrder,
-    items: LineItem[],
-    order: Order,
-    fulfillment: Fulfillment
-  ) {
-    // console.log("🍉 createFulfillment data", data);
-    // console.log("order", order);
-    return createOrder(data)
   }
 
   async validateFulfillmentData(
@@ -139,12 +154,6 @@ class ProdigiService extends AbstractFulfillmentService {
     cart: Cart
   ): Promise<number> {
     return cart.items.length * 1000
-  }
-
-  async cancelFulfillment(
-    fulfillment: Record<string, unknown>
-  ): Promise<any> {
-    return {}
   }
 
   async createReturn(

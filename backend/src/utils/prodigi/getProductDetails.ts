@@ -10,7 +10,7 @@ export const getProductDetails = async (sku: string) => {
     headers: reqHeaders,
   };
 
-  const url = `https://api.sandbox.prodigi.com/v4.0/products/${sku}`
+  const url = `${process.env.PRODIGI_API_PATH}/${sku}`
 
   const req = new Request(url, options);
 
