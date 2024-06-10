@@ -110,7 +110,7 @@ class ProdigiService extends AbstractFulfillmentService {
     }
 
     const fulfillmentData = {
-      "shippingMethod": "Budget",
+      "shippingMethod": "Standard",
       "recipient": {
           "address": {
               "line1": cart.shipping_address.address_1,
