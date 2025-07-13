@@ -1,7 +1,7 @@
 services:
   backend:
     build:
-      context: ./backend
+      context: ./studio-sammii-v2
       dockerfile: Dockerfile
     image: backend
     container_name: medusa-server
@@ -9,12 +9,12 @@ services:
       - postgres
       - redis
     env_file:
-      - ./backend/.env
+      - ./studio-sammii-v2/.env
     volumes:
       - ./backend-uploads:/app/backend/uploads
     environment:
       REDIS_URL: redis://cache
-      NODE_ENV: development
+      NODE_ENV: production
       PORT: 9000
     ports:
       - 9000:9000
@@ -22,7 +22,7 @@ services:
   postgres:
     image: postgres:10.4
     env_file:
-      - ./backend/.env
+      - ./studio-sammii-v2/.env
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
 
@@ -32,7 +32,7 @@ services:
 
   storefront:
     build:
-      context: ./storefront
+      context: ./studio-sammii-v2-storefront
       dockerfile: Dockerfile
       args:
         - MEDUSA_BACKEND_URL=https://api.studiosammii.com
@@ -41,6 +41,6 @@ services:
     depends_on:
       - backend
     env_file:
-      - ./storefront/.env
+      - ./studio-sammii-v2-storefront/.env
     ports:
       - 8000:8000
