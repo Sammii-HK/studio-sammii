@@ -1,0 +1,16 @@
+{
+  "name": "studio-sammii",
+  "version": "1.0.0",
+  "description": "Studio Sammii - Medusa v2 with Next.js Storefront",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd studio-sammii-v2 && npm run dev",
+    "dev:frontend": "cd studio-sammii-v2-storefront && npm run dev",
+    "start": "npm run dev",
+    "kill-ports": "lsof -ti:8000,9000 | xargs kill -9 2>/dev/null || true",
+    "clean-start": "npm run kill-ports && sleep 2 && npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+} 
